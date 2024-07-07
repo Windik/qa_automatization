@@ -1,5 +1,5 @@
 import time
-from pages.elements_page import TextBoxPage
+from pages.elements_page import TextBoxPage, CheckboxPage
 from conftest import driver
 
 
@@ -28,3 +28,15 @@ class TestElements:
             assert input_data["email"] == output_data["email"], missmatch_message(field_names[1])
             assert input_data["current_address"] == output_data["current_address"], missmatch_message(field_names[2])
             assert input_data["permanent_address"] == output_data["permanent_address"], missmatch_message(field_names[3])
+
+    class TestCheckbox:
+        def test_checkbox(self, driver):
+            checkbox_page = CheckboxPage(driver, 'https://demoqa.com/checkbox')
+            checkbox_page.open()
+            checkbox_page.open_full_list()
+            checkbox_page.click_random_checkbox()
+
+            input_checkbox = checkbox_page.get_checked_checkboxes()
+            output_result = checkbox_page.get_output_result()
+
+            assert input_checkbox == output_result, "Checkboxes have not been selected correctly!"
