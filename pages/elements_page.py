@@ -1,7 +1,10 @@
 from selenium.webdriver.common.by import By
 
-from generator.generator import generated_person
-from locators.elements_page_locators import TextBoxPageLocators, CheckboxPageLocators, RadioButtonPageLocators
+from generator.generator import generated_person_text_box, generated_person_web_tables
+from locators.elements_page_locators import (TextBoxPageLocators,
+                                             CheckboxPageLocators,
+                                             RadioButtonPageLocators,
+                                             WebTablesPageLocators)
 from pages.base_page import BasePage
 from faker import Faker
 from providers import custom_provider
@@ -15,7 +18,7 @@ class TextBoxPage(BasePage):
         self.locators = TextBoxPageLocators()
 
     def fill_all_fields(self):
-        person_info = next(generated_person())
+        person_info = next(generated_person_text_box())
         full_name = person_info.full_name
         email = person_info.email
         current_address = person_info.current_address
@@ -90,3 +93,43 @@ class RadioButtonPage(BasePage):
 
     def get_output_result(self):
         return self.element_is_present(self.locators.OUTPUT_RESULT).text
+
+
+class WebTablesPage(BasePage):
+
+    def __init__(self, driver, url):
+        super().__init__(driver, url)
+        self.locators = WebTablesPageLocators()
+
+    def add_new_person(self, count=1):
+        while count != 0:
+            person_info = next(generated_person_web_tables())
+
+            first_name = person_info.first_name
+            last_name = person_info.last_name
+            email = person_info.email
+            age = person_info.age
+            salary = person_info.salary
+            department = person_info.department
+
+            self.element_is_visible(self.locators.ADD_BUTTON).click()
+            self.element_is_visible(self.locators.FIRST_NAME_INPUT).send_keys(first_name)
+            self.element_is_visible(self.locators.LAST_NAME_INPUT).send_keys(last_name)
+            self.element_is_visible(self.locators.EMAIL_INPUT).send_keys(email)
+            self.element_is_visible(self.locators.AGE_INPUT).send_keys(age)
+            self.element_is_visible(self.locators.SALARY_INPUT).send_keys(salary)
+            self.element_is_visible(self.locators.DEPARTMENT_INPUT).send_keys(department)
+
+            self.element_is_visible(self.locators.SUBMIT).click()
+
+            count -= 1
+            return [first_name, last_name, str(age), email, str(salary), department]
+
+    def check_new_added_person(self):
+        people_list = self.element_are_present(self.locators.FULL_PEOPLE_LIST)
+        data = []
+
+        for item in people_list:
+            data.append(item.text.splitlines())
+
+        return data

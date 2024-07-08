@@ -1,5 +1,6 @@
 from faker.providers import BaseProvider
 from faker import Faker
+from random import randint
 
 
 fake = Faker('ru_RU')
@@ -8,6 +9,8 @@ fake = Faker('ru_RU')
 class CustomProvider(BaseProvider):
     __provider__ = "full_name"
     __provider__ = "current_address"
+    __provider__ = "age"
+    __provider__ = "salary"
 
     addresses = ["Россия, г. Елец, Сосновая ул., д. 9 кв.219",
                  "Россия, г. Жуковский, Центральная ул., д. 14 кв.187",
@@ -25,3 +28,9 @@ class CustomProvider(BaseProvider):
 
     def full_name(self):
         return self.random_element(self.full_names)
+
+    def age(self, min_age, max_age):
+        return randint(min_age, max_age)
+
+    def salary(self, min_salary, max_salary):
+        return randint(min_salary, max_salary)
