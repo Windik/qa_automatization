@@ -1,3 +1,4 @@
+import random
 import time
 from pages.elements_page import TextBoxPage, CheckboxPage, RadioButtonPage, WebTablesPage
 from conftest import driver
@@ -71,3 +72,18 @@ class TestElements:
 
             assert new_person in table_result, ("There is no new person in table, "
                                                 "or data of generated and added person are different!")
+
+        def test_web_table_search_person(self, driver):
+            web_tables_page = WebTablesPage(driver, 'https://demoqa.com/webtables')
+            web_tables_page.open()
+
+            new_person = web_tables_page.add_new_person(1)
+
+            search_field_min_value = 0
+            search_field_max_value = len(new_person) - 1
+            random_person_field_value = new_person[random.randint(search_field_min_value, search_field_max_value)]
+
+            web_tables_page.search_some_person(key_word=random_person_field_value)
+            table_search_result = web_tables_page.check_search_person()
+
+            assert random_person_field_value in table_search_result, "The person was not found in the table!"
