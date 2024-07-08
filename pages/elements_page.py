@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
 from generator.generator import generated_person
-from locators.elements_page_locators import TextBoxPageLocators, CheckboxPageLocators
+from locators.elements_page_locators import TextBoxPageLocators, CheckboxPageLocators, RadioButtonPageLocators
 from pages.base_page import BasePage
 from faker import Faker
 from providers import custom_provider
@@ -13,7 +13,6 @@ class TextBoxPage(BasePage):
     def __init__(self, driver, url):
         super().__init__(driver, url)
         self.locators = TextBoxPageLocators()
-
 
     def fill_all_fields(self):
         person_info = next(generated_person())
@@ -63,7 +62,8 @@ class CheckboxPage(BasePage):
         checked_list = self.element_are_present(self.locators.CHECKED_ITEMS)
         data = []
         for box in checked_list:
-            title_item = box.find_element(By.XPATH, self.locators.TITLE_ITEM).text.lower().replace(' ', '').split('.')[0]
+            title_item = box.find_element(By.XPATH, self.locators.TITLE_ITEM).text.lower().replace(' ', '').split('.')[
+                0]
             data.append(title_item)
         return data
 
@@ -73,3 +73,20 @@ class CheckboxPage(BasePage):
         for item in result_list:
             data.append(item.text.lower())
         return data
+
+
+class RadioButtonPage(BasePage):
+
+    def __init__(self, driver, url):
+        super().__init__(driver, url)
+        self.locators = RadioButtonPageLocators()
+
+    def click_on_radio_button(self, choice):
+        choices = {'yes': self.locators.YES_RADIOBUTTON,
+                   'impressive': self.locators.IMPRESSIVE_RADIOBUTTON,
+                   'no': self.locators.NO_RADIOBUTTON, }
+
+        radio = self.element_is_visible(choices[choice]).click()
+
+    def get_output_result(self):
+        return self.element_is_present(self.locators.OUTPUT_RESULT).text
