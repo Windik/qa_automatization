@@ -142,3 +142,20 @@ class WebTablesPage(BasePage):
         row = delete_button.find_element(By.XPATH, self.locators.PARENT_ROW)
 
         return row.text.splitlines()
+
+    def update_person_info(self):
+        person_info = next(generated_person_web_tables())
+        age = person_info.age
+
+        self.element_is_visible(self.locators.UPDATE_BUTTON).click()
+        self.element_is_visible(self.locators.AGE_INPUT).clear()
+        self.element_is_visible(self.locators.AGE_INPUT).send_keys(age)
+        self.element_is_visible(self.locators.SUBMIT).click()
+
+        return str(age)
+
+    def delete_person(self):
+        self.element_is_visible(self.locators.DELETE_BUTTON).click()
+
+    def check_deleted(self):
+        return self.element_is_present(self.locators.ROWS_NOT_FOUND_MESSAGE).text

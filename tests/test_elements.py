@@ -87,3 +87,30 @@ class TestElements:
             table_search_result = web_tables_page.check_search_person()
 
             assert random_person_field_value in table_search_result, "The person was not found in the table!"
+
+        def test_web_table_update_person_info(self, driver):
+            web_tables_page = WebTablesPage(driver, 'https://demoqa.com/webtables')
+            web_tables_page.open()
+
+            last_name = web_tables_page.add_new_person()[1]
+
+            web_tables_page.search_some_person(last_name)
+
+            age = web_tables_page.update_person_info()
+            row = web_tables_page.check_search_person()
+
+            assert age in row, "The Person card has not been changed!"
+
+        def test_web_table_delete_person(self, driver):
+            web_tables_page = WebTablesPage(driver, 'https://demoqa.com/webtables')
+            web_tables_page.open()
+
+            email = web_tables_page.add_new_person()[2]
+
+            web_tables_page.search_some_person(email)
+            web_tables_page.delete_person()
+
+            checked_text = web_tables_page.check_deleted()
+            correct_text = "No rows found"
+
+            assert checked_text == correct_text, "The Person has not been deleted!"

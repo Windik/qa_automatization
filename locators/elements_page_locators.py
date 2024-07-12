@@ -53,3 +53,7 @@ class WebTablesPageLocators:
     SEARCH_INPUT = (By.CSS_SELECTOR, 'input[id="searchBox"]')
     DELETE_BUTTON = (By.CSS_SELECTOR, 'span[title="Delete"]')
     PARENT_ROW = './/ancestor::div[@class="rt-tr-group"]'
+
+    # Update person
+    UPDATE_BUTTON = (By.CSS_SELECTOR, 'span[title="Edit"]')
+    ROWS_NOT_FOUND_MESSAGE = (By.CSS_SELECTOR, 'div[class="rt-noData"]')
