@@ -57,3 +57,11 @@ class WebTablesPageLocators:
     # Update person
     UPDATE_BUTTON = (By.CSS_SELECTOR, 'span[title="Edit"]')
     ROWS_NOT_FOUND_MESSAGE = (By.CSS_SELECTOR, 'div[class="rt-noData"]')
+
+    COUNT_ROW_LIST = (By.CSS_SELECTOR, 'select[aria-label="rows per page"]')
+    COUNT_OPTION_5 = (By.CSS_SELECTOR, 'option[value="5"]')
+    COUNT_OPTION_10 = (By.CSS_SELECTOR, 'option[value="10"]')
+    COUNT_OPTION_20 = (By.CSS_SELECTOR, 'option[value="20"]')
+    COUNT_OPTION_25 = (By.CSS_SELECTOR, 'option[value="25"]')
+    COUNT_OPTION_50 = (By.CSS_SELECTOR, 'option[value="50"]')
+    COUNT_OPTION_100 = (By.CSS_SELECTOR, 'option[value="100"]')

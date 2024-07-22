@@ -62,7 +62,7 @@ class CheckboxPage(BasePage):
                 break
 
     def get_checked_checkboxes(self):
-        checked_list = self.element_are_present(self.locators.CHECKED_ITEMS)
+        checked_list = self.elements_are_present(self.locators.CHECKED_ITEMS)
         data = []
         for box in checked_list:
             title_item = box.find_element(By.XPATH, self.locators.TITLE_ITEM).text.lower().replace(' ', '').split('.')[
@@ -71,7 +71,7 @@ class CheckboxPage(BasePage):
         return data
 
     def get_output_result(self):
-        result_list = self.element_are_present(self.locators.OUTPUT_RESULT)
+        result_list = self.elements_are_present(self.locators.OUTPUT_RESULT)
         data = []
         for item in result_list:
             data.append(item.text.lower())
@@ -126,7 +126,7 @@ class WebTablesPage(BasePage):
             return [first_name, last_name, str(age), email, str(salary), department]
 
     def check_new_added_person(self):
-        people_list = self.element_are_present(self.locators.FULL_PEOPLE_LIST)
+        people_list = self.elements_are_present(self.locators.FULL_PEOPLE_LIST)
         data = []
 
         for item in people_list:
@@ -159,3 +159,34 @@ class WebTablesPage(BasePage):
 
     def check_deleted(self):
         return self.element_is_present(self.locators.ROWS_NOT_FOUND_MESSAGE).text
+
+    def check_count_rows(self):
+        list_rows = self.elements_are_present(self.locators.FULL_PEOPLE_LIST)
+        return len(list_rows)
+
+    def select_rows_amount(self):
+        amount_locators = [
+                    self.locators.COUNT_OPTION_5,
+                    self.locators.COUNT_OPTION_10,
+                    self.locators.COUNT_OPTION_20,
+                    self.locators.COUNT_OPTION_25,
+                    self.locators.COUNT_OPTION_50,
+                    self.locators.COUNT_OPTION_100,
+                  ]
+
+        amount_values = []
+        data = []
+
+        for amount_value_locator in amount_locators:
+            amount_row_button = self.element_is_visible(self.locators.COUNT_ROW_LIST)
+
+            self.go_to_element(amount_row_button)
+            amount_row_button.click()
+            self.element_is_visible(amount_value_locator).click()
+
+            rows_button_value = self.element_is_visible(amount_value_locator).text.split()[0]
+
+            amount_values.append(int(rows_button_value))
+            data.append(self.check_count_rows())
+
+        return amount_values, data
