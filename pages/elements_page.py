@@ -4,7 +4,7 @@ from generator.generator import generated_person_text_box, generated_person_web_
 from locators.elements_page_locators import (TextBoxPageLocators,
                                              CheckboxPageLocators,
                                              RadioButtonPageLocators,
-                                             WebTablesPageLocators)
+                                             WebTablesPageLocators, ButtonsPageLocators)
 from pages.base_page import BasePage
 from faker import Faker
 from providers import custom_provider
@@ -190,3 +190,28 @@ class WebTablesPage(BasePage):
             data.append(self.check_count_rows())
 
         return amount_values, data
+
+
+class ButtonsPage(BasePage):
+
+    def __init__(self, driver, url) -> None:
+        super().__init__(driver, url)
+        self.locators = ButtonsPageLocators()
+
+    def clicks_on_different_buttons(self, type_click) -> str:
+        if type_click == "double":
+            self.action_double_click(self.element_is_visible(self.locators.DOUBLE_CLICK_ME_BUTTON))
+            return self.check_clicked_on_button(self.locators.DOUBLE_CLICK_SUCCESS_MESSAGE)
+
+        if type_click == "right":
+            self.action_right_click(self.element_is_visible(self.locators.RIGHT_CLICK_ME_BUTTON))
+            return self.check_clicked_on_button(self.locators.RIGHT_CLICK_SUCCESS_MESSAGE)
+
+        if type_click == "click":
+            self.element_is_visible(self.locators.CLICK_ME_BUTTON).click()
+            return self.check_clicked_on_button(self.locators.CLICK_SUCCESS_MESSAGE)
+
+        return "Something went wrong"
+
+    def check_clicked_on_button(self, element):
+        return self.element_is_present(element).text

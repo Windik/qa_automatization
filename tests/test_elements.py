@@ -1,6 +1,6 @@
 import random
 import time
-from pages.elements_page import TextBoxPage, CheckboxPage, RadioButtonPage, WebTablesPage
+from pages.elements_page import TextBoxPage, CheckboxPage, RadioButtonPage, WebTablesPage, ButtonsPage
 from conftest import driver
 
 
@@ -122,3 +122,18 @@ class TestElements:
             amount, count = web_tables_page.select_rows_amount()
 
             assert amount == count, "The number of rows in the table is incorrect!"
+
+
+    class TestButtonPage:
+
+        def test_different_click_on_buttons(self, driver) -> None:
+            web_buttons_page = ButtonsPage(driver, "https://demoqa.com/buttons")
+            web_buttons_page.open()
+
+            double_click = web_buttons_page.clicks_on_different_buttons('double')
+            right_click = web_buttons_page.clicks_on_different_buttons('right')
+            left_click = web_buttons_page.clicks_on_different_buttons('click')
+
+            assert double_click == "You have done a double click", "Some troubles with button double click action"
+            assert right_click == "You have done a right click", "Some troubles with button right click action"
+            assert left_click == "You have done a dynamic click", "Some troubles with button left click action"

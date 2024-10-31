@@ -65,3 +65,16 @@ class WebTablesPageLocators:
     COUNT_OPTION_25 = (By.CSS_SELECTOR, 'option[value="25"]')
     COUNT_OPTION_50 = (By.CSS_SELECTOR, 'option[value="50"]')
     COUNT_OPTION_100 = (By.CSS_SELECTOR, 'option[value="100"]')
+
+
+class ButtonsPageLocators:
+
+    # Buttons to click
+    DOUBLE_CLICK_ME_BUTTON = (By.CSS_SELECTOR, 'button[id="doubleClickBtn"]')
+    RIGHT_CLICK_ME_BUTTON = (By.CSS_SELECTOR, 'button[id="rightClickBtn"]')
+    CLICK_ME_BUTTON = (By.XPATH, '/html/body/div[2]/div/div/div/div[2]/div[2]/div[3]/button') #
+
+    # Result messages
+    DOUBLE_CLICK_SUCCESS_MESSAGE = (By.CSS_SELECTOR, 'p[id="doubleClickMessage"]')
+    RIGHT_CLICK_SUCCESS_MESSAGE = (By.CSS_SELECTOR, 'p[id="rightClickMessage"]')
+    CLICK_SUCCESS_MESSAGE = (By.CSS_SELECTOR, 'p[id="dynamicClickMessage"]')
